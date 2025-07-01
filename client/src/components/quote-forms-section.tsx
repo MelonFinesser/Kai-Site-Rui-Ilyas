@@ -15,7 +15,7 @@ import { seoQuoteSchema, customQuoteSchema, businessQuoteSchema, type SeoQuote, 
 type QuoteType = 'seo' | 'custom' | 'business';
 
 export default function QuoteFormsSection() {
-  const [activeTab, setActiveTab] = useState<QuoteType>('seo');
+  const [activeTab, setActiveTab] = useState<QuoteType>('business');
   const { toast } = useToast();
 
   const seoForm = useForm<SeoQuote>({
@@ -134,15 +134,15 @@ export default function QuoteFormsSection() {
         {/* Quote Type Selection */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           <button
-            id="seo-tab"
-            onClick={() => setActiveTab('seo')}
+            id="business-tab"
+            onClick={() => setActiveTab('business')}
             className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 ${
-              activeTab === 'seo'
-                ? 'bg-green-600 text-white'
+              activeTab === 'business'
+                ? 'bg-blue-600 text-white'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
-            SEO Quote
+            Business Website Quote
           </button>
           <button
             id="custom-tab"
@@ -156,15 +156,15 @@ export default function QuoteFormsSection() {
             Custom Design Quote
           </button>
           <button
-            id="business-tab"
-            onClick={() => setActiveTab('business')}
+            id="seo-tab"
+            onClick={() => setActiveTab('seo')}
             className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 ${
-              activeTab === 'business'
-                ? 'bg-blue-600 text-white'
+              activeTab === 'seo'
+                ? 'bg-green-600 text-white'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
-            Business Website Quote
+            SEO Quote
           </button>
         </div>
 
