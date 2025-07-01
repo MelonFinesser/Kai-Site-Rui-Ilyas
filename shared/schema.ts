@@ -60,6 +60,7 @@ export const customQuoteSchema = insertQuoteSubmissionSchema.pick({
   servicesProducts: true,
   desiredFeatures: true,
   specialRequirements: true,
+  otherFeatures: true,
 }).extend({
   serviceType: z.literal('custom'),
 });

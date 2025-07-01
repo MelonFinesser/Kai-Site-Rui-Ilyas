@@ -43,6 +43,7 @@ export default function QuoteFormsSection() {
       servicesProducts: '',
       desiredFeatures: [],
       specialRequirements: '',
+      otherFeatures: '',
     },
   });
 
@@ -109,6 +110,7 @@ export default function QuoteFormsSection() {
     'Contact Forms',
     'Blog/News Section',
     'Member Portal',
+    'Other',
   ];
 
   const businessFeatureOptions = [
@@ -416,6 +418,28 @@ export default function QuoteFormsSection() {
                     </FormItem>
                   )}
                 />
+                
+                {/* Other Features Text Input */}
+                {customForm.watch('desiredFeatures')?.includes('Other') && (
+                  <FormField
+                    control={customForm.control}
+                    name="otherFeatures"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Please specify other website features needed *</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            rows={3}
+                            placeholder="Describe any additional features, functionality, or custom requirements you need for your website..."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+
                 <FormField
                   control={customForm.control}
                   name="specialRequirements"

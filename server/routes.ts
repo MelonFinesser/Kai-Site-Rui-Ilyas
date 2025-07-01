@@ -44,6 +44,7 @@ async function sendQuoteEmail(submission: any) {
         <p><strong>Business Schedule:</strong> ${submission.businessSchedule || 'Not provided'}</p>
         <p><strong>Services/Products:</strong> ${submission.servicesProducts}</p>
         <p><strong>Desired Features:</strong> ${submission.desiredFeatures?.join(', ') || 'None specified'}</p>
+        ${submission.otherFeatures ? `<p><strong>Other Features:</strong> ${submission.otherFeatures}</p>` : ''}
         <p><strong>Special Requirements:</strong> ${submission.specialRequirements || 'None'}</p>
       `;
       break;
