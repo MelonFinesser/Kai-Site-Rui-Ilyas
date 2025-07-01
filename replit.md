@@ -96,6 +96,7 @@ The application centers around three types of quote requests:
 
 ## Changelog
 - July 01, 2025. Initial setup
+- July 01, 2025. Added PostgreSQL database with DatabaseStorage implementation
 
 ## User Preferences
 
