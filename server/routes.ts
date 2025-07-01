@@ -49,6 +49,17 @@ async function sendQuoteEmail(submission: any) {
       break;
     case 'business':
       subject = `New Business Website Quote Request from ${name}`;
+      const paymentMethodsText = submission.paymentMethods?.join(', ') || 'None selected';
+      let paymentCredentials = '';
+      
+      if (submission.paymentMethods?.includes('paypal')) {
+        paymentCredentials += `<p><strong>PayPal Business Email:</strong> ${submission.paypalBusinessEmail}</p>`;
+      }
+      if (submission.paymentMethods?.includes('stripe')) {
+        paymentCredentials += `<p><strong>Stripe Publishable Key:</strong> ${submission.stripePublishableKey}</p>`;
+        paymentCredentials += `<p><strong>Stripe Secret Key:</strong> ${submission.stripeSecretKey ? '[PROVIDED]' : '[NOT PROVIDED]'}</p>`;
+      }
+      
       htmlContent = `
         <h2>New Business Website Quote Request</h2>
         <p><strong>Name:</strong> ${name}</p>
@@ -59,6 +70,8 @@ async function sendQuoteEmail(submission: any) {
         <p><strong>Business Schedule:</strong> ${submission.businessSchedule || 'Not provided'}</p>
         <p><strong>Services/Products:</strong> ${submission.servicesProducts}</p>
         <p><strong>Desired Features:</strong> ${submission.desiredFeatures?.join(', ') || 'None specified'}</p>
+        <p><strong>Payment Methods:</strong> ${paymentMethodsText}</p>
+        ${paymentCredentials}
         <p><strong>Special Requirements:</strong> ${submission.specialRequirements || 'None'}</p>
       `;
       break;

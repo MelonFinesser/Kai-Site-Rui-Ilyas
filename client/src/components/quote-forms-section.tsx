@@ -59,6 +59,10 @@ export default function QuoteFormsSection() {
       servicesProducts: '',
       desiredFeatures: [],
       specialRequirements: '',
+      paymentMethods: [],
+      paypalBusinessEmail: '',
+      stripePublishableKey: '',
+      stripeSecretKey: '',
     },
   });
 
@@ -595,6 +599,146 @@ export default function QuoteFormsSection() {
                     </FormItem>
                   )}
                 />
+                {/* Payment Methods Section */}
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                  <h4 className="text-lg font-semibold text-slate-800 mb-3">Payment Processing Setup</h4>
+                  <p className="text-sm text-gray-600 mb-4">
+                    <strong>We strongly recommend using both PayPal and Stripe</strong> to maximize customer payment options and reduce cart abandonment.
+                  </p>
+                  
+                  <FormField
+                    control={businessForm.control}
+                    name="paymentMethods"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>Select Payment Methods *</FormLabel>
+                        <div className="grid md:grid-cols-2 gap-4 mt-3">
+                          <FormField
+                            control={businessForm.control}
+                            name="paymentMethods"
+                            render={({ field }) => {
+                              return (
+                                <FormItem className="flex flex-row items-center space-x-3 space-y-0 p-4 border rounded-lg">
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value?.includes('paypal')}
+                                      onCheckedChange={(checked) => {
+                                        return checked
+                                          ? field.onChange([...field.value, 'paypal'])
+                                          : field.onChange(
+                                              field.value?.filter(
+                                                (value) => value !== 'paypal'
+                                              )
+                                            )
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <div>
+                                    <FormLabel className="text-base font-medium">PayPal</FormLabel>
+                                    <p className="text-sm text-gray-600">Trusted by millions worldwide</p>
+                                  </div>
+                                </FormItem>
+                              )
+                            }}
+                          />
+                          <FormField
+                            control={businessForm.control}
+                            name="paymentMethods"
+                            render={({ field }) => {
+                              return (
+                                <FormItem className="flex flex-row items-center space-x-3 space-y-0 p-4 border rounded-lg">
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value?.includes('stripe')}
+                                      onCheckedChange={(checked) => {
+                                        return checked
+                                          ? field.onChange([...field.value, 'stripe'])
+                                          : field.onChange(
+                                              field.value?.filter(
+                                                (value) => value !== 'stripe'
+                                              )
+                                            )
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <div>
+                                    <FormLabel className="text-base font-medium">Stripe</FormLabel>
+                                    <p className="text-sm text-gray-600">Professional payment processing</p>
+                                  </div>
+                                </FormItem>
+                              )
+                            }}
+                          />
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* PayPal Credentials */}
+                  {businessForm.watch('paymentMethods')?.includes('paypal') && (
+                    <FormField
+                      control={businessForm.control}
+                      name="paypalBusinessEmail"
+                      render={({ field }) => (
+                        <FormItem className="mt-4">
+                          <FormLabel>PayPal Business Account Email *</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="business@yourcompany.com" 
+                              type="email"
+                              {...field} 
+                            />
+                          </FormControl>
+                          <p className="text-sm text-gray-600">This is the email associated with your PayPal business account</p>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+
+                  {/* Stripe Credentials */}
+                  {businessForm.watch('paymentMethods')?.includes('stripe') && (
+                    <div className="mt-4 space-y-4">
+                      <FormField
+                        control={businessForm.control}
+                        name="stripePublishableKey"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Stripe Publishable Key *</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="pk_live_... or pk_test_..." 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <p className="text-sm text-gray-600">Found in your Stripe Dashboard under Developers → API keys</p>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={businessForm.control}
+                        name="stripeSecretKey"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Stripe Secret Key *</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="sk_live_... or sk_test_..." 
+                                type="password"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <p className="text-sm text-gray-600">Keep this secure - never share it publicly</p>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  )}
+                </div>
+
                 <FormField
                   control={businessForm.control}
                   name="specialRequirements"
