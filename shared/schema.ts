@@ -26,6 +26,7 @@ export const quoteSubmissions = pgTable("quote_submissions", {
   paypalBusinessEmail: text("paypal_business_email"),
   stripePublishableKey: text("stripe_publishable_key"),
   stripeSecretKey: text("stripe_secret_key"),
+  otherFeatures: text("other_features"),
   submittedAt: text("submitted_at").notNull(),
 });
 
@@ -77,12 +78,14 @@ export const businessQuoteSchema = insertQuoteSubmissionSchema.pick({
   paypalBusinessEmail: true,
   stripePublishableKey: true,
   stripeSecretKey: true,
+  otherFeatures: true,
 }).extend({
   serviceType: z.literal('business'),
   paymentMethods: z.array(z.enum(['paypal', 'stripe'])).min(1, 'Please select at least one payment method'),
   paypalBusinessEmail: z.string().email('Please enter a valid PayPal business email').optional(),
   stripePublishableKey: z.string().optional(),
   stripeSecretKey: z.string().optional(),
+  otherFeatures: z.string().optional(),
 }).refine((data) => {
   if (data.paymentMethods.includes('paypal') && !data.paypalBusinessEmail) {
     return false;
@@ -90,10 +93,13 @@ export const businessQuoteSchema = insertQuoteSubmissionSchema.pick({
   if (data.paymentMethods.includes('stripe') && (!data.stripePublishableKey || !data.stripeSecretKey)) {
     return false;
   }
+  if (data.desiredFeatures?.includes('Other') && !data.otherFeatures) {
+    return false;
+  }
   return true;
 }, {
-  message: 'Please provide required credentials for selected payment methods',
-  path: ['paymentMethods'],
+  message: 'Please provide required information for selected options',
+  path: ['desiredFeatures'],
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;

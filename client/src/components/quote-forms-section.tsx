@@ -63,6 +63,7 @@ export default function QuoteFormsSection() {
       paypalBusinessEmail: '',
       stripePublishableKey: '',
       stripeSecretKey: '',
+      otherFeatures: '',
     },
   });
 
@@ -117,6 +118,7 @@ export default function QuoteFormsSection() {
     'Inventory Management',
     'Order Tracking',
     'Customer Accounts',
+    'Other',
   ];
 
   return (
@@ -599,6 +601,28 @@ export default function QuoteFormsSection() {
                     </FormItem>
                   )}
                 />
+                
+                {/* Other Features Text Input */}
+                {businessForm.watch('desiredFeatures')?.includes('Other') && (
+                  <FormField
+                    control={businessForm.control}
+                    name="otherFeatures"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Please specify other e-commerce features needed *</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            rows={3}
+                            placeholder="Describe any additional features, integrations, or functionality you need for your e-commerce website..."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+
                 {/* Payment Methods Section */}
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
                   <h4 className="text-lg font-semibold text-slate-800 mb-3">Payment Processing Setup</h4>
